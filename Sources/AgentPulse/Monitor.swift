@@ -38,6 +38,10 @@ final class AgentMonitor {
     }
 
     func triggerLaunchdAgent(label: String) {
+        guard label.hasPrefix(labelPrefix),
+              label.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "." || $0 == "-" })
+        else { return }
+
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/launchctl")
         process.arguments = ["start", label]
